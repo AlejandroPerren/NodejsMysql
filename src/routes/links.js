@@ -17,11 +17,17 @@ router.post('/add', async (req, res) => {
         };
         // Usar 'SET ?' para insertar el objeto directamente
         await pool.query('INSERT INTO links SET ?', [newLink]);
-        res.send('Link added successfully');
+        res.redirect('/links');
     } catch (err) {
         console.error('Error al agregar el link:', err);
         res.status(500).send('Error al agregar el link');
     }
+});
+
+router.get('/', async (req,res) =>{
+   const links = await pool.query('SELECT * FROM links');
+   console.log(links)
+   res.render('links/list', {links})
 });
 
 module.exports = router;
