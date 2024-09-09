@@ -1,5 +1,5 @@
 const mysql = require('mysql');
-
+const { promisify } =  require('util');
 const { database } = require('./keys');
 
 const pool = mysql.createPool(database);
@@ -22,5 +22,6 @@ pool.getConnection((err, coneccion)=>{
     console.log('Base de Datos Conectada');
     return;
 });
+pool.query = promisify(pool.query);// para poder usar promesas(cada ves que use una query)
 
 module.exports = pool;
