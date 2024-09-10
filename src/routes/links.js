@@ -1,7 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const flash = require('connect-flash');
+const session = require('express-session');
 
 const pool = require('../database');
+
 
 router.get('/add', (req, res) => {
     res.render('links/add');
@@ -34,8 +37,10 @@ router.get('/', async (req,res) =>{
 router.get('/delete/:id', async (req,res)=>{
     // console.log(req.params.id);//para ver los parametros correctos para borrar
     const {id} = req.params;
+    
     await pool.query('DELETE FROM links WHERE ID = ?', [id]);
     req.flash('success', 'Link Borrado Correctamente');
+
     res.redirect('/links')
 });
 
