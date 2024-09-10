@@ -5,11 +5,12 @@ const path = require('path');
 const flash = require('connect-flash');
 const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
+const passport = require('passport');
 const { database } = require('./keys');
 
 // Inicializaciones
 const app = express();
-
+require('./lib/passport')
 // Settings
 app.set('port', process.env.PORT || 4000);
 app.set('views', path.join(__dirname, 'views'));
@@ -36,6 +37,8 @@ app.use(session({
 app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Variables Globales
 
